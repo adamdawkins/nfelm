@@ -2,6 +2,7 @@ module Football exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 
 
 main =
@@ -24,12 +25,18 @@ type alias Model =
     , awayScore : Int
     , down : Int
     , distance : Int
+    , ball : Int
+    , isEndOfGame : Bool
     }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model 3600 0 0 1 10, Cmd.none )
+    ( Model 3600 0 0 1 10 20 False, Cmd.none )
+
+
+
+-- UPDATE
 
 
 type Msg
@@ -39,25 +46,64 @@ type Msg
 update msg model =
     case msg of
         Play ->
-            ( model, Cmd.none )
+            let
+                newClock =
+                    model.clock - 100
+            in
+                if newClock <= 0 then
+                    ( { model | clock = 0, isEndOfGame = True }, Cmd.none )
+                else
+                    ( { model | clock = newClock }, Cmd.none )
+
+
+
+-- VIEW
 
 
 view : Model -> Html Msg
 view model =
-    div
-        [ style
-            [ ( "background", "#2c2c2c" )
-            , ( "height", "100%" )
-            , ( "color", "#fff" )
+    if model.isEndOfGame then
+        div [ containerStyle ]
+            [ span [] [ text "Full time!" ]
+            , viewScore model
             ]
+    else
+        div
+            [ containerStyle ]
+            [ viewClock model
+            , viewScore model
+            , viewGameSituation model
+            , div []
+                [ button [ onClick Play ] [ text "Play!" ]
+                ]
+            ]
+
+
+containerStyle =
+    style
+        [ ( "background", "#2c2c2c" )
+        , ( "height", "100%" )
+        , ( "color", "#fff" )
         ]
-        [ dl
-            []
-            [ dt [] [ text "Clock:" ]
-            , dd [] [ text (toString model.clock) ]
-            ]
-        , div []
-            [ span [] [ text ("New England " ++ (toString model.awayScore) ++ "-" ++ (toString model.homeScore) ++ " Philadelphia") ]
-            ]
-        , span [] [ text ((toString model.down) ++ " & " ++ (toString model.distance)) ]
+
+
+viewClock : Model -> Html Msg
+viewClock model =
+    dl
+        []
+        [ dt [] [ text "Clock:" ]
+        , dd [] [ text (toString model.clock) ]
+        ]
+
+
+viewScore : Model -> Html Msg
+viewScore model =
+    div [] [ text ("New England " ++ (toString model.awayScore) ++ "-" ++ (toString model.homeScore) ++ " Philadelphia") ]
+
+
+viewGameSituation : Model -> Html Msg
+viewGameSituation model =
+    div []
+        [ div [] [ text ((toString model.down) ++ " & " ++ (toString model.distance)) ]
+        , div [] [ text ("LOS:" ++ (toString model.ball)) ]
         ]
