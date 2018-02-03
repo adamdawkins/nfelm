@@ -69,7 +69,27 @@ update msg model =
                             model.ball - yards
                         )
             in
-                ( { model | ball = newLOS }, Cmd.none )
+                -- home team scores
+                if newLOS == 100 then
+                    ( { model
+                        | homeScore = model.homeScore + 7
+                        , ball = 80
+                        , homeTeamHasBall = False
+                      }
+                    , Cmd.none
+                    )
+                -- away team scores
+                else if newLOS == 0 then
+                    ( { model
+                        | awayScore = model.awayScore + 7
+                        , ball = 20
+                        , homeTeamHasBall = True
+                      }
+                    , Cmd.none
+                    )
+                -- update line of scrimmage
+                else
+                    ( { model | ball = newLOS }, Cmd.none )
 
 
 

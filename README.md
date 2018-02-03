@@ -1,7 +1,7 @@
 # Version 1
-[] Pressing the `Play` button runs the next play.
-[] Plays are randomly generated
+[x] Pressing the `Play` button runs the next play.
+[x] Plays are randomly generated
 [] Football down & distance
 [] turnover on downs
-[] scoring (Touchdowns only)
-[] Clock winds down until game ends.
+[x] scoring (Touchdowns only)
+[x] Clock winds down until game ends.
