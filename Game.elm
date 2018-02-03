@@ -3,6 +3,7 @@ module Football exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Random
 
 
 main =
@@ -27,12 +28,13 @@ type alias Model =
     , distance : Int
     , ball : Int
     , isEndOfGame : Bool
+    , homeTeamHasBall : Bool
     }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model 3600 0 0 1 10 20 False, Cmd.none )
+    ( Model 3600 0 0 1 10 20 False True, Cmd.none )
 
 
 
@@ -41,6 +43,7 @@ init =
 
 type Msg
     = Play
+    | NewYardage Int
 
 
 update msg model =
@@ -53,7 +56,20 @@ update msg model =
                 if newClock <= 0 then
                     ( { model | clock = 0, isEndOfGame = True }, Cmd.none )
                 else
-                    ( { model | clock = newClock }, Cmd.none )
+                    ( { model | clock = newClock }, Random.generate NewYardage (Random.int 5 15) )
+
+        NewYardage yards ->
+            let
+                newLOS =
+                    clamp 0
+                        100
+                        (if model.homeTeamHasBall then
+                            model.ball + yards
+                         else
+                            model.ball - yards
+                        )
+            in
+                ( { model | ball = newLOS }, Cmd.none )
 
 
 
