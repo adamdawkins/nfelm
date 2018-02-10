@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "elm-reactor",
-		"changelog": "./node_modules/.bin/changelog"
+    "changelog": "./node_modules/.bin/changelog"
   },
   "keywords": [],
   "author": "",
