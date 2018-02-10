@@ -1,0 +1,16 @@
+{
+  "name": "nfelm",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "elm-reactor",
+		"changelog": "./node_modules/.bin/changelog"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "changelog.md": "^1.1.0"
+  }
+}
