@@ -1,3 +1,11 @@
+## [Version 0.1.0](https://github.com/adamdawkins/nfelm/releases/tag/v0.1.0) (2018-2-10)
+
+### Breaking changes
+
+- Add down & distance and turnover on downs: [`c073b0f`](https://github.com/adamdawkins/nfelm/commit/c073b0f)
+
+[...full changes](https://github.com/adamdawkins/nfelm/compare/v0.0.1...v0.1.0)
+
 ## [Version 0.0.1](https://github.com/adamdawkins/nfelm/releases/tag/v0.0.1) (2018-2-10)
 
 ### Bug fixes
