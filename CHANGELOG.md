@@ -1,3 +1,11 @@
+## [Version 0.1.1](https://github.com/adamdawkins/nfelm/releases/tag/v0.1.1) (2018-2-10)
+
+### Bug fixes
+
+- Display play history: [`c373764`](https://github.com/adamdawkins/nfelm/commit/c373764)
+
+[...full changes](https://github.com/adamdawkins/nfelm/compare/v0.1.0...v0.1.1)
+
 ## [Version 0.1.0](https://github.com/adamdawkins/nfelm/releases/tag/v0.1.0) (2018-2-10)
 
 ### Breaking changes
