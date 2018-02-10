@@ -20,6 +20,11 @@ main =
 -- application state
 
 
+type alias PlayByPlay = 
+    { yards: Int
+    , homeTeamHasBall : Bool
+    }
+  
 type alias Model =
     { clock : Int
     , homeScore : Int
@@ -29,12 +34,13 @@ type alias Model =
     , ball : Int
     , isEndOfGame : Bool
     , homeTeamHasBall : Bool
+    , plays : List (PlayByPlay)
     }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model 3600 0 0 1 10 20 False True, Cmd.none )
+    ( Model 3600 0 0 1 10 20 False True [], Cmd.none )
 
 
 
@@ -77,6 +83,7 @@ update msg model =
                         , homeTeamHasBall = False
                         , down = 1
                         , distance = 10
+                        , plays = { yards = yards, homeTeamHasBall = True } :: model.plays
                       }
                     , Cmd.none
                     )
@@ -88,6 +95,7 @@ update msg model =
                         , homeTeamHasBall = True
                         , down = 1
                         , distance = 10
+                        , plays = { yards = yards, homeTeamHasBall = False } :: model.plays
                       }
                     , Cmd.none
                     )
@@ -100,24 +108,33 @@ update msg model =
 -- updateDownAndDistance : Model -> Int -> Model -> 
 updateDownAndDistance model gain  =
   if gain >= model.distance then
-    ( { model | down = 1, distance = 10 }, Cmd.none )
+    (
+      { model 
+        | down = 1
+        , distance = 10 
+        , plays = { yards = gain, homeTeamHasBall = model.homeTeamHasBall } :: model.plays
+      }
+    , Cmd.none
+    )
   else
     if model.down == 4 then
-      turnoverOnDowns(model)
+      turnoverOnDowns model gain
   else
     ( { model
         | distance = model.distance - gain
         , down = model.down + 1
+        , plays = { yards = gain, homeTeamHasBall = model.homeTeamHasBall } :: model.plays
       }
     , Cmd.none
     )
 
 
-turnoverOnDowns model =
+turnoverOnDowns model gain =
   ( { model
       | down = 1
       , distance = 10
       , homeTeamHasBall = not model.homeTeamHasBall
+      , plays = { yards = gain, homeTeamHasBall = model.homeTeamHasBall } :: model.plays
     }
   , Cmd.none
   )
@@ -141,6 +158,7 @@ view model =
             , div []
                 [ button [ onClick Play ] [ text "Play!" ]
                 ]
+            , viewPlayHistory model
             ]
 
 
@@ -171,4 +189,18 @@ viewGameSituation model =
     div []
         [ div [] [ text ((toString model.down) ++ " & " ++ (toString model.distance)) ]
         , div [] [ text ("LOS:" ++ (toString model.ball)) ]
+        ]
+
+viewPlayHistory : Model -> Html Msg
+viewPlayHistory model = 
+    div [] (List.map viewPlay model.plays)
+
+viewPlay : PlayByPlay -> Html Msg
+viewPlay play =
+  let
+      team = if play.homeTeamHasBall then "PHI" else "NE"
+  in
+    div []
+        [
+          text (team ++ " " ++ (toString play.yards) ++ " yard gain.")
         ]

@@ -7,11 +7,13 @@
 - [x] ~~Clock winds down until game ends.~~
 
 # Version 2
-- [ ] Display play history
+- [x] ~~Display play history~~
 - [ ] Show time in quarters
 - [ ] change of possession at half time
 - [ ] Tidy up clock (minutes and seconds)
 - [ ] Show ascii field with ball position
+- [ ] show down & distance in play history
+- [ ] show scores  & turnovers in history
 
 # Version 3
 - [ ] Choose run or pass on offense
