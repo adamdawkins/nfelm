@@ -5,3 +5,23 @@
 - [x] ~~turnover on downs~~
 - [x] ~~scoring (Touchdowns only)~~
 - [x] ~~Clock winds down until game ends.~~
+
+# Version 2
+- [ ] Display play history
+- [ ] Show time in quarters
+- [ ] change of possession at half time
+- [ ] Tidy up clock (minutes and seconds)
+- [ ] Show ascii field with ball position
+
+# Version 3
+- [ ] Choose run or pass on offense
+- [ ] No choice options on defense
+
+# Version 4
+- [ ] play clock
+- [ ] penalties (delay of game)
+- [ ] field goal option within 50 yards
+
+# Version 5
+- [ ] Improve game engine randomness
+- [ ] Add defensive options
