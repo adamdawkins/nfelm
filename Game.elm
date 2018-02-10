@@ -43,7 +43,7 @@ init =
 
 type Msg
     = Play
-    | NewYardage Int
+    | GeneratePlay Int
 
 
 update msg model =
@@ -56,9 +56,9 @@ update msg model =
                 if newClock <= 0 then
                     ( { model | clock = 0, isEndOfGame = True }, Cmd.none )
                 else
-                    ( { model | clock = newClock }, Random.generate NewYardage (Random.int 5 15) )
+                    ( { model | clock = newClock }, Random.generate GeneratePlay (Random.int 5 15) )
 
-        NewYardage yards ->
+        GeneratePlay yards ->
             let
                 newLOS =
                     clamp 0
@@ -75,6 +75,8 @@ update msg model =
                         | homeScore = model.homeScore + 7
                         , ball = 80
                         , homeTeamHasBall = False
+                        , down = 1
+                        , distance = 10
                       }
                     , Cmd.none
                     )
@@ -84,14 +86,41 @@ update msg model =
                         | awayScore = model.awayScore + 7
                         , ball = 20
                         , homeTeamHasBall = True
+                        , down = 1
+                        , distance = 10
                       }
                     , Cmd.none
                     )
                 -- update line of scrimmage
                 else
-                    ( { model | ball = newLOS }, Cmd.none )
+                  updateDownAndDistance { model | ball = newLOS } yards
 
 
+
+-- updateDownAndDistance : Model -> Int -> Model -> 
+updateDownAndDistance model gain  =
+  if gain >= model.distance then
+    ( { model | down = 1, distance = 10 }, Cmd.none )
+  else
+    if model.down == 4 then
+      turnoverOnDowns(model)
+  else
+    ( { model
+        | distance = model.distance - gain
+        , down = model.down + 1
+      }
+    , Cmd.none
+    )
+
+
+turnoverOnDowns model =
+  ( { model
+      | down = 1
+      , distance = 10
+      , homeTeamHasBall = not model.homeTeamHasBall
+    }
+  , Cmd.none
+  )
 
 -- VIEW
 
@@ -134,7 +163,7 @@ viewClock model =
 
 viewScore : Model -> Html Msg
 viewScore model =
-    div [] [ text ("New England " ++ (toString model.awayScore) ++ "-" ++ (toString model.homeScore) ++ " Philadelphia") ]
+    div [] [ text ((if model.homeTeamHasBall /= True then "*" else "") ++ "New England " ++ (toString model.awayScore) ++ "-" ++ (toString model.homeScore) ++ " Philadelphia" ++ (if model.homeTeamHasBall then "*" else "")) ]
 
 
 viewGameSituation : Model -> Html Msg
