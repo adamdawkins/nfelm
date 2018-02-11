@@ -12,7 +12,7 @@
 - [ ] change of possession at half time
 - [ ] Tidy up clock (minutes and seconds)
 - [x] ~~Show field with ball position ~~
-- [ ] Show line to gain
+- [x] Show line to gain
 - [ ] show down & distance in play history
 - [ ] show scores  & turnovers in history
 

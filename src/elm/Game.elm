@@ -209,19 +209,24 @@ viewPlay play =
 viewField : Model -> Html Msg
 viewField model =
   let
-      -- 8.33% is ten yards of width, and we add 8.33% to get out of the left-most end zone
-      los = (toFloat model.ball) / 10 * 8.33 + 8.33
+      los = cssFieldPosition model.ball
       losStyle =
         style
-          [ ( "left", ((toString los) ++ "%")) ]
+          [ ( "left", los) ]
+      lineToGain = if model.homeTeamHasBall then
+          model.ball + model.distance
+        else
+          model.ball - model.distance
+          
+      lineToGainStyle =
+        style
+          [ ( "left", cssFieldPosition lineToGain) ]
   in
     div
       [ id "football"]
       [ span [ class "endzone" ] []
-      , div
-        [ (class "los")
-        , losStyle
-        ] []
+      , div [ (class "marker los") , losStyle ] []
+      , div [ (class "marker lineToGain") , lineToGainStyle ] []
       , viewYard "10"
       , viewYard "20"
       , viewYard "30"
@@ -242,3 +247,11 @@ viewYard yardLine =
     , (attribute "data-yard" yardLine)
     ]
     []
+
+cssFieldPosition : Int -> String
+cssFieldPosition yards =
+  let 
+    -- 8.33% is ten yards of width, and we add 8.33% to get out of the left-most end zone
+    number = (toFloat yards) / 10 * 8.33 + 8.33
+  in
+      (toString number) ++ "%"

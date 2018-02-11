@@ -191,11 +191,18 @@
 
 // my styles
 
-#football .los {
+#football .marker {
 	height: 100%;
 	position: absolute;
 	top: 0;
-	background: yellow;
 	width: 2px;
 	z-index: 100;
+}
+
+.marker.los {
+	background: blue;
+}
+
+.marker.lineToGain {
+	background: yellow;
 }
