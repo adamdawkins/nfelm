@@ -11,7 +11,8 @@
 - [ ] Show time in quarters
 - [ ] change of possession at half time
 - [ ] Tidy up clock (minutes and seconds)
-- [ ] ~~Show ascii field~~ with ball position
+- [x] ~~Show field with ball position ~~
+- [ ] Show line to gain
 - [ ] show down & distance in play history
 - [ ] show scores  & turnovers in history
 

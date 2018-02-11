@@ -208,21 +208,32 @@ viewPlay play =
 
 viewField : Model -> Html Msg
 viewField model =
-  div
-    [ id "football"]
-    [ span [ class "endzone" ] []
-    , viewYard "10"
-    , viewYard "20"
-    , viewYard "30"
-    , viewYard "40"
-    , viewYard "50"
-    , viewYard "40"
-    , viewYard "30"
-    , viewYard "20"
-    , viewYard "10"
-    , viewYard ""
-    , span [ class "endzone" ] []
-    ]
+  let
+      -- 8.33% is ten yards of width, and we add 8.33% to get out of the left-most end zone
+      los = (toFloat model.ball) / 10 * 8.33 + 8.33
+      losStyle =
+        style
+          [ ( "left", ((toString los) ++ "%")) ]
+  in
+    div
+      [ id "football"]
+      [ span [ class "endzone" ] []
+      , div
+        [ (class "los")
+        , losStyle
+        ] []
+      , viewYard "10"
+      , viewYard "20"
+      , viewYard "30"
+      , viewYard "40"
+      , viewYard "50"
+      , viewYard "40"
+      , viewYard "30"
+      , viewYard "20"
+      , viewYard "10"
+      , viewYard ""
+      , span [ class "endzone" ] []
+      ]
 
 viewYard : String -> Html Msg
 viewYard yardLine = 

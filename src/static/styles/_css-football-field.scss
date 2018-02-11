@@ -188,3 +188,14 @@
   right: 1px;
   top: 38%;
 }
+
+// my styles
+
+#football .los {
+	height: 100%;
+	position: absolute;
+	top: 0;
+	background: yellow;
+	width: 2px;
+	z-index: 100;
+}
