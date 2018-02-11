@@ -154,6 +154,7 @@ view model =
             [ containerStyle ]
             [ viewClock model
             , viewScore model
+            , viewField model
             , viewGameSituation model
             , div []
                 [ button [ onClick Play ] [ text "Play!" ]
@@ -204,3 +205,29 @@ viewPlay play =
         [
           text (team ++ " " ++ (toString play.yards) ++ " yard gain.")
         ]
+
+viewField : Model -> Html Msg
+viewField model =
+  div
+    [ id "football"]
+    [ span [ class "endzone" ] []
+    , viewYard "10"
+    , viewYard "20"
+    , viewYard "30"
+    , viewYard "40"
+    , viewYard "50"
+    , viewYard "40"
+    , viewYard "30"
+    , viewYard "20"
+    , viewYard "10"
+    , viewYard ""
+    , span [ class "endzone" ] []
+    ]
+
+viewYard : String -> Html Msg
+viewYard yardLine = 
+  span
+    [ (class "yard")
+    , (attribute "data-yard" yardLine)
+    ]
+    []
